@@ -1,0 +1,44 @@
+services:
+
+  # ── One-shot: fetch all ASNs and export flat IPv4 list ──────
+  cidr-pull:
+    build: .
+    volumes:
+      - cidr-data:/data
+    command: ["--format", "flat_v4", "--output", "/data/output"]
+    environment:
+      - ABUSEIPDB_KEY=${ABUSEIPDB_KEY:-}
+
+  # ── Daemon: refresh every hour, notify webhook ──────────────
+  cidr-daemon:
+    build: .
+    volumes:
+      - cidr-data:/data
+    command:
+      - "--daemon"
+      - "--daemon-interval"
+      - "3600"
+      - "--format"
+      - "all"
+      - "--output"
+      - "/data/output"
+      - "--abuse-check"
+      - "--abuse-filter"
+      - "--notify-webhook"
+      - "${WEBHOOK_URL:-http://localhost/no-webhook}"
+    environment:
+      - ABUSEIPDB_KEY=${ABUSEIPDB_KEY:-}
+    restart: unless-stopped
+
+  # ── IP lookup: check a single IP against cached snapshot ────
+  # Usage: docker compose run --rm cidr-check --check-ip 1.2.3.4 --no-diff
+  cidr-check:
+    build: .
+    volumes:
+      - cidr-data:/data
+    profiles: ["check"]
+    environment:
+      - ABUSEIPDB_KEY=${ABUSEIPDB_KEY:-}
+
+volumes:
+  cidr-data:
