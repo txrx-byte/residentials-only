@@ -1,0 +1,30 @@
+[build-system]
+requires      = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name        = "cidr-pull"
+version     = "2.0.0"
+description = "Residential ISP Whitelist — ASN → CIDR fetcher with AbuseIPDB audit"
+readme      = "README.md"
+requires-python = ">=3.10"
+license     = {text = "MIT"}
+
+dependencies = [
+    "requests>=2.31.0",
+    "rich>=13.7.0",
+]
+
+[project.scripts]
+cidr-pull = "cidr_pull:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cidr_pull*"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-mock>=3.12",
+    "responses>=0.25",
+]
