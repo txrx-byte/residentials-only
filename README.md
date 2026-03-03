@@ -2,7 +2,7 @@
 
 A fully-featured CLI tool for fetching CIDR ranges from residential ISP ASNs worldwide, with rich terminal output and multiple export formats targeting firewalls and Cloudflare.
 
-The strategy this tool supports is **whitelisting residential ISPs and blocking everything else at layer 2** — a far more tractable approach than trying to blocklist the entire threat landscape. Rather than chasing down every VPN, datacenter, bot network, and proxy range, you define the universe of legitimate residential traffic and drop the rest by default.
+The strategy this tool supports is **whitelisting residential ISPs and blocking everything else at layer 2 (Or at your Cloudflare L7 Edge, if desired...)** — a far more tractable approach than trying to blocklist the entire threat landscape. Rather than chasing down every VPN, datacenter, bot network, and proxy range, you define the universe of legitimate residential traffic and drop the rest by default.
 
 ---
 
